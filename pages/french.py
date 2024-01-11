@@ -1,7 +1,4 @@
 import streamlit as st
-import random
-import time
-import os
 from clarifai.client.model import Model
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -14,7 +11,7 @@ CLARIFAI_PAT = clarifai_pat
 # Model parameters or mixtral
 inference_params = dict(temperature=0.7, max_tokens=200, top_k = 50, top_p= 0.95)
 
-st.set_page_config(page_title='Chatbot with Mixtral')
+st.set_page_config(page_title='Chatbot with Mixtral | French')
 st.title("Chatbot with Mixtral")
 
 # Add uploader function
@@ -35,7 +32,7 @@ with st.chat_message("assistant"):
 
 
 # CNN model result
-prediction = 'melanoma' # TO CHANGE LATER
+prediction = ''
 
 #Input 1 patient information: sex & age
 age = st.number_input('age', step=1)
@@ -48,11 +45,7 @@ patient_history = st.text_input('patient history')
 lesion_char = st.text_input('lesion characters')
 
 # TO DO: add CNN model prediction in the prompt
-intro = 'Hi, I need some information about the following information'
-# lesion ="melanoma"
-action = "Please give a definition of the disease, a short description of it, the level of danger and what are the actions to take. Answer in 4 different bullet points with the 4 different titles [Definition, Description, Threat, Actions to take] ."
-
-prompt = f'<s> [INST] {intro}. I am  {age} years old, my sex is defined as{sex}. My medical history is {patient_history}. I have a {lesion_char}. It s 90% a  {prediction}. {action} "[/INST]'
+prompt = f'the patient is  {age} years old, {sex},his history: {patient_history},the lesion characters: {lesion_char}'
 
 
 # We generate an answer only where there is a prompt
