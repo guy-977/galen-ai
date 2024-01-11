@@ -31,23 +31,28 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 with st.chat_message("assistant"):
-    st.write("Hello 👋, I am MistralAI (mixtral-8x7B-Instruct-v0_1), how can I help you?")
+    st.write("Hello 👋, I am Galen (mixtral-8x7B-Instruct-v0_1), I'm here to help you as an AI medical assistant")
 
+
+# CNN model result
+prediction = ''
 
 #Input 1 patient information: sex & age
 age = st.number_input('age', step=1)
 sex = st.multiselect('sex', ['male', 'female', 'other'])
+
 #input 2 patient history
 patient_history = st.text_input('patient history')
 
 # input 3 lesion characters
 lesion_char = st.text_input('lesion characters')
 
+# TO DO: add CNN model prediction in the prompt
 prompt = f'the patient is  {age} years old, {sex},his history: {patient_history},the lesion characters: {lesion_char}'
 
 
 # We generate an answer only where there is a prompt
-if st.button('generate'):
+if st.button('Generate', type="primary"):
     # Formatting the prompt
     prompt =  "<s> [INST] " + prompt +  " [/INST]"
             
