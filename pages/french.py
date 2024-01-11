@@ -1,7 +1,4 @@
 import streamlit as st
-import random
-import time
-import os
 from clarifai.client.model import Model
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -14,7 +11,7 @@ CLARIFAI_PAT = clarifai_pat
 # Model parameters or mixtral
 inference_params = dict(temperature=0.7, max_tokens=200, top_k = 50, top_p= 0.95)
 
-st.set_page_config(page_title='Chatbot with Mixtral')
+st.set_page_config(page_title='Chatbot with Mixtral | French')
 st.title("Chatbot with Mixtral")
 
 # Add uploader function
