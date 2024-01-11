@@ -53,12 +53,18 @@ prompt = f'the patient is  {age} years old, {sex},his history: {patient_history}
 
 # We generate an answer only where there is a prompt
 if st.button('Generate', type="primary"):
-    # Formatting the prompt
-    prompt =  "<s> [INST] " + prompt +  " [/INST]"
+    try:
+        # Formatting the prompt
+        prompt =  "<s> [INST] " + prompt +  " [/INST]"
             
-    model_prediction = Model("https://clarifai.com/mistralai/completion/models/mixtral-8x7B-Instruct-v0_1").predict_by_bytes(prompt.encode(), input_type="text", inference_params=inference_params)
-    # Take the answer
-    full_response = model_prediction.outputs[0].data.text.raw
-    st.write(full_response)
+        model_prediction = Model("https://clarifai.com/mistralai/completion/models/mixtral-8x7B-Instruct-v0_1").predict_by_bytes(prompt.encode(), input_type="text", inference_params=inference_params)
+        
+        # Take the answer
+        full_response = model_prediction.outputs[0].data.text.raw
+        with st.container(border=True):
+            st.write(full_response)
+    except Exception as err:
+        st.exception('Somthening went worng 😢😭')
+        print(err)
 
     
