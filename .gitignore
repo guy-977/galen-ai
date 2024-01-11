@@ -1,0 +1,7 @@
+# ignore env variables
+.env
+.env*
+
+# ignore streamlit secrets file
+.streamlit
+.streamlit*
