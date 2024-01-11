@@ -35,7 +35,7 @@ with st.chat_message("assistant"):
 
 
 # CNN model result
-prediction = ''
+prediction = 'melanoma' # TO CHANGE LATER
 
 #Input 1 patient information: sex & age
 age = st.number_input('age', step=1)
@@ -48,7 +48,11 @@ patient_history = st.text_input('patient history')
 lesion_char = st.text_input('lesion characters')
 
 # TO DO: add CNN model prediction in the prompt
-prompt = f'the patient is  {age} years old, {sex},his history: {patient_history},the lesion characters: {lesion_char}'
+intro = 'Hi, I need some information about the following information'
+# lesion ="melanoma"
+action = "Please give a definition of the disease, a short description of it, the level of danger and what are the actions to take. Answer in 4 different bullet points with the 4 different titles [Definition, Description, Threat, Actions to take] ."
+
+prompt = f'<s> [INST] {intro}. I am  {age} years old, my sex is defined as{sex}. My medical history is {patient_history}. I have a {lesion_char}. It s 90% a  {prediction}. {action} "[/INST]'
 
 
 # We generate an answer only where there is a prompt
