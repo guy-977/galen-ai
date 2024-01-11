@@ -36,7 +36,7 @@ prediction = ''
 
 #Input 1 patient information: sex & age
 age = st.number_input('Age', step=1)
-sex = st.multiselect('Sexe', ['Homme', 'Femme', 'Autre'])
+sex = st.multiselect('Sexe', ['Homme', 'Femme', 'Autre'], max_selections=1)
 
 #input 2 patient history
 patient_history = st.text_input('Antécédent médical')
