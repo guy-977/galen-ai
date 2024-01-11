@@ -19,18 +19,12 @@ st.title("Chatbot with Mixtral")
 
 # Add uploader function
 st.sidebar.subheader("File Uploader:")
-selected_file = ""
 
 uploaded_file = st.sidebar.file_uploader("Choose files",
                                             type=['.jpg', '.jpeg', '.png'],
-                                            accept_multiple_files=True)
+                                            accept_multiple_files=False)
 if uploaded_file:
-    st.image(uploaded_file, caption='skin lesion image', width=200)
-
-# if uploaded_files:
-#     file_index = st.sidebar.selectbox("Select a file to display", options=[f.name for f in uploaded_files])
-#     selected_file = uploaded_files[[f.name for f in uploaded_files].index(file_index)]
-
+    st.sidebar.image(uploaded_file, caption='Image uploaded by patient', width=200)
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -39,11 +33,6 @@ if "messages" not in st.session_state:
 with st.chat_message("assistant"):
     st.write("Hello 👋, I am MistralAI (mixtral-8x7B-Instruct-v0_1), how can I help you?")
 
-
-# Display chat messages from history on app rerun
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
 
 #Input 1 patient information: sex & age
 age = st.number_input('age', step=1)
