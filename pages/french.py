@@ -48,7 +48,7 @@ if uploaded_file:
     st.sidebar.image(uploaded_file, caption='Image importée par le patient', width=100)
     classification = get_prediction(uploaded_file, model)
     # CNN model result
-    prediction = f"it's {classification[0][0]} with {classification[0][1]} probability"
+    prediction = f"C'est {classification[0][0]} avec une probabilité de {classification[0][1]}"
     with st.container(border=True):
         st.sidebar.subheader('Probabilites of Classification', divider='rainbow')
         st.sidebar.metric(f':green[{classification[0][0]}]', value='{:.2f}%'.format(classification[0][1]))
@@ -79,8 +79,8 @@ intro = "Salut, j'ai besoin d'informations sur les éléments suivants."
 action = "S'il vous plaît, donnez une définition de la maladie, une brève description, le niveau de danger et les actions à prendre. Répondez en 4 points avec les titres suivants : [**Définition**: La maladie est définie comme..., **Description** : Il s'agit d'une maladie caractérisée par..., **Niveau de danger**: Le niveau de danger associé à cette maladie est..., **Actions à prendre** : Pour faire face à cette maladie, il est recommandé de prendre les mesures suivantes...]."
 
 if prediction is not None:
-    prompt = f'Le patient est agé {age} ans, {sex}, : {patient_history},the lesion characters: {lesion_char}'
-    prompt = f'<s> [INST] {intro}. J ai  {age} ans, mon sexe est defini comme {sex}. Mes antecedents medicaux sont {patient_history}. J ai {lesion_char}. Le niveau de predication est de 90% {prediction}. {action} "[/INST]'
+    # prompt = f'Le patient est agé {age} ans, {sex}, : {patient_history},the lesion characters: {lesion_char}'
+    prompt = f'<s> [INST] {intro}. J ai  {age} ans, mon sexe est defini comme {sex}. Mes antecedents medicaux sont {patient_history}. J ai {lesion_char}. {prediction}. {action} "[/INST]'
 
 
 # We generate an answer only where there is a prompt

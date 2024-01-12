@@ -63,14 +63,14 @@ with st.chat_message("assistant"):
 
 
 #Input 1 patient information: sex & age
-age = st.number_input('age', step=1)
-sex = st.multiselect('sex', ['male', 'female', 'other'], max_selections=1)
+age = st.number_input('Age', step=1)
+sex = st.multiselect('Sex', ['Male', 'Female', 'Other'], max_selections=1)
 
 #input 2 patient history
-patient_history = st.text_input('patient history')
+patient_history = st.text_input('Patient history')
 
 # input 3 lesion characters
-lesion_char = st.text_input('lesion characters')
+lesion_char = st.text_input('Lesion characters')
 
 # TO DO: add CNN model prediction in the prompt
 intro = 'Hi, I need some information about the following information'
