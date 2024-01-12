@@ -14,7 +14,7 @@ inference_params = dict(temperature=0.7, max_new_tokens = 200, max_tokens=100, t
 
 def get_prediction(img, Model):
   class_names = [
-    'Chickenpox', 'Cowpox', 'HFMD', 'Healthy', 'Measles', 'Monkeypox'
+    'Varicelle', 'Variole de la vache', 'Herpangine', 'Bonne santé', 'Rougeole', 'Variole du singe'
   ]
   img = tf.keras.utils.load_img(img, target_size=(180, 180))
   img_array = tf.keras.utils.img_to_array(img)
