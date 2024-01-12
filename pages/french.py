@@ -25,8 +25,8 @@ def get_prediction(img, Model):
 
   return sorted([(class_names[i], 100 * score[0][i].numpy()) for i in range(len(class_names))], key=lambda x: x[1], reverse=True)
 
-st.set_page_config(page_title='Chatbot with Mixtral | French')
-st.title("Chatbot with Mixtral")
+st.set_page_config(page_title='Galen AI | French')
+st.title("Galen AI | French")
 
 # Caching the model for faster loading
 @st.cache_resource
