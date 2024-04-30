@@ -16,6 +16,9 @@ def load_model(model_path):
   return model
 model = load_model('models/skinNet.h5')
 
+#Chose Groq API model
+groq_model = st.sidebar.multiselect('Model', ['llama3-8b-8192', 'llama3-70b-8192', 'mixtral-8x7b-32768', ' gemma-7b-it'], max_selections=1)
+
 # Add uploader function
 st.sidebar.subheader("File Uploader:", divider='rainbow')
 
@@ -72,7 +75,10 @@ if st.button('Generate', type="primary"):
         # Formatting the prompt
         prompt =  "<s> [INST] " + prompt +  " [/INST]"
             
-        llm_generation = groq.generate(st.secrets["GROQ_API_KEY"], prompt)
+        if groq_model:
+            llm_generation = groq.generate(st.secrets["GROQ_API_KEY"], prompt, model_name=groq_model[0])
+        else:
+            llm_generation = groq.generate(st.secrets["GROQ_API_KEY"], prompt)
 
         with st.container(border=True):
             st.write(llm_generation)
