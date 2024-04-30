@@ -1,29 +1,9 @@
 import streamlit as st
 import tensorflow as tf
-from clarifai.client.model import Model
-# from dotenv import load_dotenv
-# load_dotenv()
-
-
-# clarifai_pat = os.getenv('CLARIFAI_PAT')
-clarifai_pat = st.secrets["CLARIFAI_PAT"]
-CLARIFAI_PAT = clarifai_pat
-
-# Model parameters or mixtral
-inference_params = dict(temperature=0.7, max_new_tokens = 200, max_tokens=100, top_k = 50, top_p= 0.95)
-
-def get_prediction(img, Model):
-  class_names = [
-    'Varicelle', 'Variole de la vache', 'Herpangine', 'Bonne santé', 'Rougeole', 'Variole du singe'
-  ]
-  img = tf.keras.utils.load_img(img, target_size=(180, 180))
-  img_array = tf.keras.utils.img_to_array(img)
-  img_array = tf.expand_dims(img_array, 0)
-
-  prediction = Model.serve(img_array)
-  score = tf.nn.softmax(prediction)
-
-  return sorted([(class_names[i], 100 * score[0][i].numpy()) for i in range(len(class_names))], key=lambda x: x[1], reverse=True)
+from src.models.predict_label import get_prediction
+from src.models.heatmap import *
+import tempfile
+from src.llm import groq
 
 st.set_page_config(page_title='Galen AI | French')
 st.title("Galen AI | French")
@@ -31,10 +11,10 @@ st.title("Galen AI | French")
 # Caching the model for faster loading
 @st.cache_resource
 # laod the model
-def load_model(exported_model_path):
-    model = tf.saved_model.load(exported_model_path)
-    return model
-model = load_model('SkinNet')
+def load_model(model_path):
+  model = tf.keras.models.load_model(model_path)
+  return model
+model = load_model('models/skinNet.h5')
 
 # Add uploader function
 st.sidebar.subheader("Importer un fichier:")
@@ -54,6 +34,12 @@ if uploaded_file:
         st.sidebar.metric(f':green[{classification[0][0]}]', value='{:.2f}%'.format(classification[0][1]))
         st.sidebar.metric(f':green[{classification[1][0]}]', '{:.2f}%'.format(classification[1][1]))
         st.sidebar.metric(f':green[{classification[2][0]}]', '{:.2f}%'.format(classification[2][1]))
+    # Generate class activation heatmap
+    heatmap = make_gradcam_heatmap(uploaded_file, model, last_conv_layer_name='conv2d_2')
+    with tempfile.NamedTemporaryFile(delete=True, suffix=".jpg") as temp_file:
+        temp_file_path = temp_file.name
+        save_and_display_gradcam(uploaded_file, heatmap, cam_path=temp_file_path, alpha=0.8)
+        st.sidebar.image(temp_file_path, caption='Grad Cam', width=260)
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -88,13 +74,11 @@ if st.button('Générer', type="primary"):
     try:
         # # Formatting the prompt
         # prompt =  "<s> [INST] " + prompt +  " [/INST]"
-            
-        model_prediction = Model("https://clarifai.com/mistralai/completion/models/mixtral-8x7B-Instruct-v0_1").predict_by_bytes(prompt.encode(), input_type="text", inference_params=inference_params)
-        
-        # Take the answer
-        full_response = model_prediction.outputs[0].data.text.raw
+        llm_generation = groq.generate(st.secrets["GROQ_API_KEY"], prompt)
+
         with st.container(border=True):
-            st.write(full_response)
+            st.write(llm_generation)        
+
     except Exception as err:
         st.exception('Il y a eu une erreur 😢😭')
         print(err)
