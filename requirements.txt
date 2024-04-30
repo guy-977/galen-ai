@@ -1,7 +1,7 @@
-clarifai==10.3.1
-keras==3.3.3
-matplotlib==3.8.4
-numpy==1.26.4
-streamlit==1.33.0
-tensorflow==2.16.1
+clarifai
+keras
+matplotlib
+numpy
+streamlit
+tensorflow
 groq
