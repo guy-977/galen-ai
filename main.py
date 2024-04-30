@@ -9,7 +9,7 @@ st.set_page_config(page_title='Galen AI (using Mixtral-8x7B)')
 st.title("Galen AI (using Mixtral-8x7B)")
 
 # Caching the model for faster loading
-@st.cache_resource
+# @st.cache_resource
 # laod the model
 def load_model(model_path):
   model = tf.keras.models.load_model(model_path)
