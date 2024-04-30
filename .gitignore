@@ -5,3 +5,5 @@
 # ignore streamlit secrets file
 .streamlit
 .streamlit*
+__pycache__
+*/__pycache__
