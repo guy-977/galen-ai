@@ -14,8 +14,8 @@ def get_img_array(img_path, size):
     return array
 
 
-def make_gradcam_heatmap(image_file, model, last_conv_layer_name, pred_index=None):
-    img = tf.keras.utils.load_img(image_file, target_size=(180, 180))
+def make_gradcam_heatmap(image_file, model, last_conv_layer_name, pred_index=None, target_size=(180, 180)):
+    img = tf.keras.utils.load_img(image_file, target_size=target_size)
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)
     pred = model.predict(img_array)

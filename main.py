@@ -28,7 +28,7 @@ uploaded_file = st.sidebar.file_uploader("Choose files",
 prediction = None
 if uploaded_file:
     st.sidebar.image(uploaded_file, caption='Image uploaded by patient', width=100)
-    classification = get_prediction(uploaded_file, model)
+    classification = get_prediction(uploaded_file, model,)
     # CNN model result
     prediction = f"it's {classification[0][0]} with {classification[0][1]} probability"
     with st.container(border=True):
@@ -36,7 +36,7 @@ if uploaded_file:
         st.sidebar.metric(f':green[{classification[0][0]}]', value='{:.2f}%'.format(classification[0][1]))
         st.sidebar.metric(f':green[{classification[1][0]}]', '{:.2f}%'.format(classification[1][1]))
         st.sidebar.metric(f':green[{classification[2][0]}]', '{:.2f}%'.format(classification[2][1]))
-    heatmap = make_gradcam_heatmap(uploaded_file, model, last_conv_layer_name='conv2d_2')
+    heatmap = make_gradcam_heatmap(uploaded_file, model, last_conv_layer_name='conv2d_2',)
     with tempfile.NamedTemporaryFile(delete=True, suffix=".jpg") as temp_file:
         temp_file_path = temp_file.name
         save_and_display_gradcam(uploaded_file, heatmap, cam_path=temp_file_path, alpha=0.8)
