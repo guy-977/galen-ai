@@ -2,8 +2,11 @@ import streamlit as st
 import tensorflow as tf
 from src.models.predict_label import get_prediction
 from src.models.heatmap import *
-import tempfile
+import tempfile, os
 from src.llm import groq
+from dotenv import load_dotenv
+load_dotenv()
+
 
 st.set_page_config(page_title='Galen AI | French')
 st.title("Galen AI | French")
@@ -29,7 +32,7 @@ if uploaded_file:
     classification = get_prediction(uploaded_file, model)
     # CNN model result
     prediction = f"C'est {classification[0][0]} avec une probabilité de {classification[0][1]}"
-    with st.container():
+    with st.container(border=True):
         st.sidebar.subheader('Probabilites of Classification', divider='rainbow')
         st.sidebar.metric(f':green[{classification[0][0]}]', value='{:.2f}%'.format(classification[0][1]))
         st.sidebar.metric(f':green[{classification[1][0]}]', '{:.2f}%'.format(classification[1][1]))
@@ -74,9 +77,15 @@ if st.button('Générer', type="primary"):
     try:
         # # Formatting the prompt
         # prompt =  "<s> [INST] " + prompt +  " [/INST]"
-        llm_generation = groq.generate(st.secrets["groq-api-key"], prompt)
 
-        with st.container():
+        if st.secrets:
+            api_key = st.secrets["groq-api-key"]
+        else:
+            api_key = os.environ.get('groq-api-key')
+
+        llm_generation = groq.generate(api_key, prompt)
+
+        with st.container(border=True):
             st.write(llm_generation)        
 
     except Exception as err:
