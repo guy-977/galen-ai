@@ -74,7 +74,7 @@ if st.button('Générer', type="primary"):
     try:
         # # Formatting the prompt
         # prompt =  "<s> [INST] " + prompt +  " [/INST]"
-        llm_generation = groq.generate(st.secrets["GROQ_API_KEY"], prompt)
+        llm_generation = groq.generate(st.secrets["groq_api_key"], prompt)
 
         with st.container(border=True):
             st.write(llm_generation)        
