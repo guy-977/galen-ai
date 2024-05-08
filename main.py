@@ -76,9 +76,9 @@ if st.button('Generate', type="primary"):
         prompt =  "<s> [INST] " + prompt +  " [/INST]"
             
         if groq_model:
-            llm_generation = groq.generate(st.secrets["groq_api_key"], prompt, model_name=groq_model[0])
+            llm_generation = groq.generate(st.secrets["groq-api-key"], prompt, model_name=groq_model[0])
         else:
-            llm_generation = groq.generate(st.secrets["groq_api_key"], prompt)
+            llm_generation = groq.generate(st.secrets["groq-api-key"], prompt)
 
         with st.container(border=True):
             st.write(llm_generation)
