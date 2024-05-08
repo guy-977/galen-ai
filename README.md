@@ -1,6 +1,6 @@
 # galen-ai
 
- Demo for skin lesiosn detection using deep learning CNN model and explain predections using LLMs for end users
+Demo for skin lesions detection using deep learning CNN model and explain predictions using LLMs for end users.
 
  ## set up
  install dependancies
