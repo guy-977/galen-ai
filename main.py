@@ -31,7 +31,7 @@ if uploaded_file:
     classification = get_prediction(uploaded_file, model,)
     # CNN model result
     prediction = f"it's {classification[0][0]} with {classification[0][1]} probability"
-    with st.container(border=True):
+    with st.container():
         st.sidebar.subheader('Probabilites of Classification', divider='rainbow')
         st.sidebar.metric(f':green[{classification[0][0]}]', value='{:.2f}%'.format(classification[0][1]))
         st.sidebar.metric(f':green[{classification[1][0]}]', '{:.2f}%'.format(classification[1][1]))
@@ -80,7 +80,7 @@ if st.button('Generate', type="primary"):
         else:
             llm_generation = groq.generate(st.secrets["groq-api-key"], prompt)
 
-        with st.container(border=True):
+        with st.container():
             st.write(llm_generation)
         
     except Exception as err:
