@@ -82,7 +82,7 @@ if st.button('Generate', type="primary"):
                 api_key = st.secrets["groq-api-key"]
             else: pass
         else:
-            api_key = os.environ.get('groq-api-key')
+            api_key = os.environ.get('GROQ')
             
         if groq_model:
             llm_generation = groq.generate(api_key, prompt, model_name=groq_model[0])
