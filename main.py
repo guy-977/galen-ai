@@ -77,8 +77,10 @@ if st.button('Generate', type="primary"):
         # Formatting the prompt
         prompt =  "<s> [INST] " + prompt +  " [/INST]"
 
-        if st.secrets:
-            api_key = st.secrets["groq-api-key"]
+        if os.path.exists('./.streamlit/secrets.toml'):
+            if st.secrets['groq-api-key']:
+                api_key = st.secrets["groq-api-key"]
+            else: pass
         else:
             api_key = os.environ.get('groq-api-key')
             
@@ -91,5 +93,5 @@ if st.button('Generate', type="primary"):
             st.write(llm_generation)
         
     except Exception as err:
-        st.exception('You must upload an image of the skin lesion!')
+        st.exception('Something went wrong! 😢😭')
         print(err)
