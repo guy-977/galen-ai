@@ -5,3 +5,4 @@ numpy
 streamlit==1.34.0
 tensorflow==2.15.0
 groq
+python-dotenv

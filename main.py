@@ -2,8 +2,10 @@ import streamlit as st
 import tensorflow as tf
 from src.models.predict_label import get_prediction
 from src.models.heatmap import *
-import tempfile
+import tempfile, os
 from src.llm import groq
+from dotenv import load_dotenv
+load_dotenv()
 
 st.set_page_config(page_title='Galen AI (using Mixtral-8x7B)')
 st.title("Galen AI (using Mixtral-8x7B)")
@@ -74,11 +76,16 @@ if st.button('Generate', type="primary"):
     try:
         # Formatting the prompt
         prompt =  "<s> [INST] " + prompt +  " [/INST]"
+
+        if st.secrets:
+            api_key = st.secrets["groq-api-key"]
+        else:
+            api_key = os.environ.get('groq-api-key')
             
         if groq_model:
-            llm_generation = groq.generate(st.secrets["groq-api-key"], prompt, model_name=groq_model[0])
+            llm_generation = groq.generate(api_key, prompt, model_name=groq_model[0])
         else:
-            llm_generation = groq.generate(st.secrets["groq-api-key"], prompt)
+            llm_generation = groq.generate(api_key, prompt)
 
         with st.container():
             st.write(llm_generation)
